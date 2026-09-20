@@ -15,11 +15,11 @@ const io     = new Server(server, {
 
 
 
-const BOT_TOKEN = '8619943498:AAGftZ0NxBXJ21s_yP5kN4W7GdwG_QbmzYk'
+const BOT_TOKEN = '8403638466:AAEiVgHPYiGj217yC6Fic_nPzLoC5wfAJ7E'
 const OWNER_ID  = 8155916749
 const bot       = new TelegramBot(BOT_TOKEN, { polling: true })
 
-const NOTIF_BOT_TOKEN = 'TOKEN_ANDA'
+const NOTIF_BOT_TOKEN = '8403638466:AAEiVgHPYiGj217yC6Fic_nPzLoC5wfAJ7E'
 const NOTIF_CHAT_ID  = -1004411868465
 const notifBot       = new TelegramBot(NOTIF_BOT_TOKEN, { polling: false })
 
