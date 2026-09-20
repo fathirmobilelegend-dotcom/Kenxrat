@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Create Account — KENXRAT</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Genetic';src:url('/Kenxrat.ttf') format('truetype')}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --b0:#020510;--b1:#050d1f;--b2:#081428;--b3:#0d1e38;
+  --blue:#1d6fff;--blue2:#4d8fff;--blue3:#7fb3ff;
+  --cyan:#00d4ff;--cyan2:#00a8cc;
+  --g1:rgba(13,30,56,.85);
+  --gborder:rgba(29,111,255,.18);--gborder2:rgba(29,111,255,.32);--gborder3:rgba(29,111,255,.55);
+  --glow:rgba(29,111,255,.15);
+  --green:#00e5a0;--red:#ff4d6d;--amber:#ffc34d;--purple:#a78bfa;--pink:#f472b6;
+  --t0:#e8f4ff;--t1:#8ab4e0;--t2:#3d6080;--t3:#1a3050;
+  --sans:'Outfit',sans-serif;--title:'Rajdhani',sans-serif;--mono:'Space Mono',monospace;
+  --nav-h:70px;--r:16px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--b0);color:var(--t0);font-family:var(--sans);min-height:100vh;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav-h)+20px);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(29,111,255,.12) 0%,transparent 65%),radial-gradient(ellipse 50% 80% at 100% 30%,rgba(0,212,255,.05) 0%,transparent 55%),var(--b0);pointer-events:none}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(29,111,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(29,111,255,.025) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 40%,transparent 100%)}
+
+/* ── SIDEBAR ── */
+.sb-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;opacity:0;transition:opacity .25s}
+.sb-overlay.show{display:block;opacity:1}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:270px;z-index:501;background:linear-gradient(180deg,rgba(5,13,31,.99) 0%,rgba(2,5,16,1) 100%);border-right:1px solid var(--gborder2);display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:12px 0 60px rgba(0,0,0,.9)}
+.sidebar.open{transform:translateX(0)}
+.sb-header{padding:20px 16px 14px;border-bottom:1px solid var(--gborder);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.sb-logo{flex:1;font-family:'Genetic',var(--title);font-size:16px;font-weight:700;letter-spacing:3px;color:#fff;text-shadow:0 0 24px rgba(29,111,255,.4)}
+.sb-logo span{color:var(--cyan)}
+.sb-close{width:30px;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.3);transition:all .15s}
+.sb-close:hover{color:var(--red);border-color:rgba(255,77,109,.25)}
+.sb-nav{flex:1;overflow-y:auto;padding:10px 10px 0}
+.sb-section{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:2.5px;padding:12px 8px 5px;text-transform:uppercase}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--t1);font-size:13px;font-weight:500;transition:all .18s;margin-bottom:2px;border:1px solid transparent;-webkit-tap-highlight-color:transparent}
+.sb-item:hover{background:rgba(29,111,255,.06);color:var(--blue2)}
+.sb-item.active{background:rgba(29,111,255,.1);color:var(--blue);border-color:rgba(29,111,255,.15)}
+.sb-item svg{flex-shrink:0;opacity:.7}
+.sb-item:hover svg,.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;background:rgba(29,111,255,.12);color:var(--blue2);border-radius:20px;padding:2px 8px;font-size:9px;font-family:var(--mono)}
+.sb-footer{padding:12px 10px;border-top:1px solid var(--gborder);flex-shrink:0}
+.sb-user{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:11px;background:rgba(29,111,255,.04);border:1px solid var(--gborder)}
+.sb-avatar{width:34px;height:34px;border-radius:9px;background:rgba(29,111,255,.12);border:1px solid var(--gborder2);display:flex;align-items:center;justify-content:center;color:var(--blue2);font-weight:700;font-size:14px;flex-shrink:0;font-family:var(--title)}
+.sb-uname{font-size:12px;font-weight:600;color:var(--t0);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-urole{font-family:var(--mono);font-size:7px;color:var(--t1);margin-top:2px;letter-spacing:1.5px;text-transform:uppercase}
+
+/* ── HEADER ── */
+.header{position:sticky;top:0;z-index:200;padding:12px 16px;display:flex;align-items:center;gap:12px;background:rgba(2,5,16,.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--gborder)}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),var(--blue),transparent);opacity:.35}
+.sb-toggle{width:38px;height:38px;border-radius:10px;border:1px solid var(--gborder2);background:rgba(29,111,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--blue2);transition:all .2s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.sb-toggle:hover{background:rgba(29,111,255,.14);border-color:var(--blue)}
+.hdr-logo{flex:1;text-align:center;font-family:'Genetic',var(--title);font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;text-shadow:0 0 30px rgba(29,111,255,.5)}
+.hdr-logo span{color:var(--cyan)}
+.logout-btn{display:flex;align-items:center;gap:5px;background:rgba(255,77,109,.06);border:1px solid rgba(255,77,109,.2);border-radius:8px;padding:6px 12px;font-family:var(--mono);font-size:8px;color:var(--red);letter-spacing:1.5px;cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent}
+.logout-btn:hover{background:rgba(255,77,109,.12);border-color:rgba(255,77,109,.4)}
+
+/* ── MAIN ── */
+.main{max-width:480px;margin:0 auto}
+.page{display:none}
+.page.active{display:block}
+
+/* ── SECTION LABEL ── */
+.sec-label{display:flex;align-items:center;gap:10px;padding:18px 16px 10px}
+.sec-label-text{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--t2);letter-spacing:3px;text-transform:uppercase;white-space:nowrap}
+.sec-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gborder2),transparent)}
+
+/* ── FORM CARD ── */
+.form-card{margin:0 16px 14px;background:linear-gradient(145deg,rgba(13,30,56,.85),rgba(8,20,40,.95));border:1px solid var(--gborder2);border-radius:20px;padding:20px 18px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04)}
+.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(29,111,255,.3),transparent)}
+.form-label{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;display:block}
+.form-input{width:100%;height:48px;border-radius:12px;background:rgba(255,255,255,.03);border:1.5px solid var(--gborder);color:var(--t0);font-family:var(--sans);font-size:13px;padding:0 14px;outline:none;transition:border-color .2s,background .2s;margin-bottom:14px}
+.form-input:focus{border-color:var(--blue);background:rgba(29,111,255,.04)}
+.form-input::placeholder{color:var(--t3)}
+.pw-wrap{position:relative;margin-bottom:14px}
+.pw-wrap .form-input{margin-bottom:0;padding-right:44px}
+.pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--t2);cursor:pointer;padding:4px;display:flex;align-items:center;transition:color .15s}
+.pw-eye:hover{color:var(--blue2)}
+.form-divider{height:1px;background:linear-gradient(90deg,var(--gborder2),transparent);margin:2px 0 16px}
+
+/* ── ROLE PICKER BUTTON ── */
+.role-picker-btn{
+  width:100%;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(13,30,56,.9),rgba(8,20,40,.95));
+  border:1.5px solid var(--gborder2);
+  display:flex;align-items:center;gap:12px;
+  padding:0 16px;cursor:pointer;margin-bottom:16px;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+  position:relative;overflow:hidden;
+}
+.role-picker-btn::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(29,111,255,.2),transparent)}
+.role-picker-btn:hover{border-color:var(--gborder3);background:linear-gradient(135deg,rgba(29,111,255,.08),rgba(8,20,40,.95))}
+.role-picker-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;transition:all .3s}
+.role-picker-label{flex:1;font-family:var(--title);font-size:15px;font-weight:600;color:var(--t0);letter-spacing:.5px}
+.role-picker-sub{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:1px}
+.role-picker-arrow{color:var(--t2);flex-shrink:0;transition:transform .2s}
+.role-picker-btn.open .role-picker-arrow{transform:rotate(180deg)}
+
+/* ── ROLE SHEET (snackbar) ── */
+.role-sheet-overlay{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+.role-sheet-overlay.show{opacity:1;pointer-events:all}
+.role-sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:801;
+  background:linear-gradient(180deg,rgba(8,20,40,.99),rgba(2,5,16,1));
+  border:1px solid var(--gborder2);border-bottom:none;
+  border-radius:24px 24px 0 0;
+  padding:0 0 40px;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  max-width:480px;margin:0 auto;
+  box-shadow:0 -8px 60px rgba(0,0,0,.8),0 0 0 1px rgba(29,111,255,.05);
+}
+.role-sheet.show{transform:translateY(0)}
+.role-sheet-handle{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);margin:14px auto 0}
+.role-sheet-header{padding:18px 20px 14px;border-bottom:1px solid var(--gborder)}
+.role-sheet-title{font-family:var(--title);font-size:18px;font-weight:700;color:#fff;letter-spacing:2px}
+.role-sheet-sub{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:2px;margin-top:3px}
+.role-sheet-list{padding:12px 16px 0;display:flex;flex-direction:column;gap:8px}
+
+/* ── ROLE ITEM IN SHEET ── */
+.role-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:16px;
+  border:1.5px solid var(--gborder);
+  background:rgba(255,255,255,.02);
+  cursor:pointer;transition:all .18s;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;overflow:hidden;
+}
+.role-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(29,111,255,.1),transparent)}
+.role-item:hover{background:rgba(255,255,255,.04);border-color:var(--gborder2)}
+.role-item.active-member   {border-color:rgba(0,229,160,.45);background:rgba(0,229,160,.07)}
+.role-item.active-reseller {border-color:rgba(29,111,255,.45);background:rgba(29,111,255,.07)}
+.role-item.active-vip      {border-color:rgba(244,114,182,.45);background:rgba(244,114,182,.07)}
+.role-item.active-owner    {border-color:rgba(255,195,77,.45);background:rgba(255,195,77,.07)}
+.role-item.active-developer{border-color:rgba(167,139,250,.45);background:rgba(167,139,250,.07)}
+
+.role-item-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.role-item-icon::after{content:'';position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.ri-member   {background:linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,229,160,.05));color:var(--green)}
+.ri-reseller {background:linear-gradient(135deg,rgba(29,111,255,.2),rgba(29,111,255,.05));color:var(--blue2)}
+.ri-vip      {background:linear-gradient(135deg,rgba(244,114,182,.2),rgba(244,114,182,.05));color:var(--pink)}
+.ri-owner    {background:linear-gradient(135deg,rgba(255,195,77,.2),rgba(255,195,77,.05));color:var(--amber)}
+.ri-developer{background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(167,139,250,.05));color:var(--purple)}
+
+.role-item-body{flex:1;min-width:0}
+.role-item-name{font-family:var(--title);font-size:16px;font-weight:700;color:var(--t0);letter-spacing:1px}
+.role-item-desc{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:.5px;margin-top:2px}
+.role-item-check{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--blue),var(--cyan2));display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(29,111,255,.4);flex-shrink:0;opacity:0;transition:opacity .2s}
+.role-item.active-member .role-item-check,.role-item.active-reseller .role-item-check,.role-item.active-vip .role-item-check,.role-item.active-owner .role-item-check,.role-item.active-developer .role-item-check{opacity:1}
+
+/* ── ROLE BADGES ── */
+.role-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:5px;font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.role-member   {background:rgba(0,229,160,.08);color:var(--green);border:1px solid rgba(0,229,160,.2)}
+.role-reseller {background:rgba(29,111,255,.08);color:var(--blue2);border:1px solid rgba(29,111,255,.2)}
+.role-vip      {background:rgba(244,114,182,.08);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+.role-owner    {background:rgba(255,195,77,.08);color:var(--amber);border:1px solid rgba(255,195,77,.2)}
+.role-developer{background:rgba(167,139,250,.08);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+
+/* ── BTN ── */
+.btn-primary{width:100%;height:50px;border-radius:13px;border:1px solid var(--gborder2);background:linear-gradient(135deg,rgba(29,111,255,.2),rgba(29,111,255,.08));color:var(--blue2);font-family:var(--title);font-size:15px;font-weight:600;cursor:pointer;letter-spacing:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:linear-gradient(135deg,rgba(29,111,255,.3),rgba(29,111,255,.14));box-shadow:0 0 24px rgba(29,111,255,.2)}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.35;pointer-events:none}
+
+/* ── DENIED ── */
+.denied-card{margin:24px 16px;background:rgba(255,77,109,.04);border:1px solid rgba(255,77,109,.15);border-radius:20px;padding:40px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.denied-title{font-family:var(--title);font-size:18px;font-weight:700;color:var(--red);letter-spacing:1px}
+.denied-sub{font-family:var(--mono);font-size:8px;color:rgba(255,77,109,.4);letter-spacing:2px}
+
+/* ── STATS ── */
+.stats-row{display:flex;gap:8px;padding:0 16px 14px;flex-wrap:wrap}
+.stat-chip{flex:1;min-width:56px;background:rgba(29,111,255,.04);border:1px solid var(--gborder);border-radius:14px;padding:12px 10px;text-align:center}
+.stat-val{font-family:var(--title);font-size:20px;font-weight:700;color:var(--blue2);line-height:1;text-shadow:0 0 12px rgba(29,111,255,.4)}
+.stat-key{font-family:var(--mono);font-size:7px;color:var(--t2);letter-spacing:2px;margin-top:4px;text-transform:uppercase}
+
+/* ── AKUN LIST ── */
+.akun-list{padding:0 16px 100px;display:flex;flex-direction:column;gap:10px}
+.akun-card{background:linear-gradient(135deg,rgba(13,30,56,.8),rgba(8,20,40,.9));border:1px solid var(--gborder);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;animation:slideIn .25s ease both;transition:all .2s;position:relative;overflow:hidden}
+.akun-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(29,111,255,.15),transparent)}
+.akun-card:hover{border-color:var(--gborder2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.akun-av{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--title);font-size:18px;font-weight:700;flex-shrink:0}
+.av-member   {background:rgba(0,229,160,.1);color:var(--green);border:1px solid rgba(0,229,160,.2)}
+.av-reseller {background:rgba(29,111,255,.1);color:var(--blue2);border:1px solid rgba(29,111,255,.2)}
+.av-vip      {background:rgba(244,114,182,.1);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+.av-owner    {background:rgba(255,195,77,.1);color:var(--amber);border:1px solid rgba(255,195,77,.2)}
+.av-developer{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+.akun-info{flex:1;min-width:0}
+.akun-name{font-family:var(--title);font-size:15px;font-weight:600;color:var(--t0);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px}
+.akun-user{font-family:var(--mono);font-size:8px;color:var(--t2);margin-top:2px;letter-spacing:.5px}
+.akun-meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.del-btn{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,77,109,.12);background:rgba(255,77,109,.03);display:flex;align-items:center;justify-content:center;color:rgba(255,77,109,.4);cursor:pointer;transition:all .18s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.del-btn:hover{border-color:rgba(255,77,109,.4);background:rgba(255,77,109,.1);color:var(--red)}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:200;background:rgba(5,13,31,.97);backdrop-filter:blur(32px);border:1px solid var(--gborder2);border-radius:22px;display:flex;align-items:center;padding:6px;gap:2px;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(29,111,255,.05),inset 0 1px 0 rgba(255,255,255,.04);width:calc(100% - 32px);max-width:400px}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 5px;cursor:pointer;border:none;background:transparent;color:var(--t2);font-family:var(--mono);font-size:7px;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s;border-radius:16px;-webkit-tap-highlight-color:transparent}
+.nav-btn svg{stroke:currentColor;transition:stroke .2s,filter .2s}
+.nav-btn.active{background:rgba(29,111,255,.1);color:var(--blue2)}
+.nav-btn.active svg{filter:drop-shadow(0 0 6px rgba(29,111,255,.6))}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:calc(var(--nav-h)+28px);left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;width:calc(100% - 32px);max-width:380px}
+.toast{width:100%;background:rgba(8,20,40,.98);border:1px solid var(--gborder2);border-radius:10px;padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--t0);display:flex;align-items:center;gap:9px;animation:toastIn .25s ease both;box-shadow:0 8px 32px rgba(0,0,0,.7);pointer-events:auto;letter-spacing:.5px}
+.td{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.toast.success .td{background:var(--green);box-shadow:0 0 7px var(--green)}
+.toast.error   .td{background:var(--red);box-shadow:0 0 7px var(--red)}
+.toast.info    .td{background:var(--blue);box-shadow:0 0 7px var(--blue)}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── CONFIRM ── */
+.confirm-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;animation:fadeInOv .2s ease both}
+@keyframes fadeInOv{from{opacity:0}to{opacity:1}}
+.confirm-box{width:300px;background:linear-gradient(145deg,#050d1f,#020510);border:1px solid var(--gborder2);border-radius:22px;padding:28px 22px 22px;box-shadow:0 0 60px rgba(29,111,255,.08),0 24px 60px rgba(0,0,0,.8);animation:slideUpD .3s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes slideUpD{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.confirm-title{font-family:var(--title);font-size:16px;font-weight:700;color:var(--t0);margin-bottom:6px;letter-spacing:1px}
+.confirm-sub{font-size:12px;color:var(--t2);margin-bottom:20px;line-height:1.6}
+.confirm-btns{display:flex;gap:8px}
+.confirm-cancel{flex:1;height:44px;border-radius:11px;border:1px solid var(--gborder);background:transparent;color:var(--t2);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.confirm-cancel:hover{border-color:var(--gborder2);color:var(--t0)}
+.confirm-del{flex:1;height:44px;border-radius:11px;border:1px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:var(--red);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.confirm-del:hover{background:rgba(255,77,109,.16)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.success-dialog-overlay{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .3s}
+.success-dialog-overlay.show{opacity:1;pointer-events:all}
+.success-dialog{position:fixed;bottom:0;left:0;right:0;z-index:901;display:flex;justify-content:center;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.1,.64,1)}
+.success-dialog.show{transform:translateY(0)}
+.success-dialog-inner{position:relative;width:100%;max-width:380px;max-height:80vh;overflow-y:auto;background:linear-gradient(180deg,rgba(8,20,40,.99),rgba(2,5,16,1));border:1px solid var(--gborder2);border-bottom:none;border-radius:20px 20px 0 0;padding:10px 16px 18px;box-shadow:0 -8px 60px rgba(0,0,0,.8),0 0 0 1px rgba(29,111,255,.05);text-align:center}
+.success-dialog-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,160,.35),transparent)}
+.sd-handle{width:34px;height:3px;border-radius:2px;background:rgba(255,255,255,.12);margin:0 auto 12px}
+.sd-icon{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,.22),rgba(0,229,160,.05));color:var(--green);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;border:1px solid rgba(0,229,160,.35);box-shadow:0 0 16px rgba(0,229,160,.25)}
+.sd-title{font-family:var(--title);font-size:17px;font-weight:700;color:#fff;letter-spacing:.5px;margin-bottom:2px}
+.sd-sub{font-family:var(--mono);font-size:10px;color:#fff;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.sd-cred{background:rgba(255,255,255,.03);border:1px solid var(--gborder);border-radius:10px;padding:8px 12px;margin-bottom:10px;text-align:left}
+.sd-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-family:var(--mono);font-size:10px}
+.sd-row+.sd-row{border-top:1px solid var(--gborder)}
+.sd-label{color:var(--t2);letter-spacing:1px}
+.sd-value{color:var(--blue2);font-weight:700;letter-spacing:.5px}
+.sd-img{width:80%;height:auto;border-radius:10px;margin:0 auto 10px;display:block;border:1px solid var(--gborder)}
+.sd-desc{font-size:10.5px;color:var(--t1);line-height:1.5;margin-bottom:12px;padding:0 2px}
+.sd-btn{display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border-radius:11px;background:linear-gradient(135deg,#34b7f1,#229ED9);color:#fff;font-family:var(--title);font-size:12.5px;font-weight:600;letter-spacing:.3px;text-decoration:none;margin-bottom:8px;box-shadow:0 4px 16px rgba(34,158,217,.35);transition:all .2s}
+.sd-btn:hover{box-shadow:0 4px 22px rgba(34,158,217,.5);transform:translateY(-1px)}
+.sd-btn:active{transform:scale(.98)}
+.sd-close{width:100%;height:36px;border-radius:10px;border:1px solid var(--gborder);background:rgba(255,255,255,.02);color:var(--t2);font-family:inherit;font-size:12px;cursor:pointer;transition:all .15s}
+.sd-close:hover{border-color:var(--gborder2);color:var(--t0)}
+
+/* ── TRIAL PICKER ── */
+.trial-picker-btn{
+  width:100%;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(13,30,56,.9),rgba(8,20,40,.95));
+  border:1.5px solid var(--gborder2);
+  display:flex;align-items:center;gap:12px;
+  padding:0 16px;cursor:pointer;margin-bottom:16px;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+  position:relative;overflow:hidden;
+}
+.trial-picker-btn::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,160,.2),transparent)}
+.trial-picker-btn:hover{border-color:rgba(0,229,160,.35);background:linear-gradient(135deg,rgba(0,229,160,.06),rgba(8,20,40,.95))}
+.trial-picker-icon{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:var(--green);box-shadow:0 0 8px var(--green);transition:all .3s}
+.trial-picker-label{flex:1;font-family:var(--title);font-size:15px;font-weight:600;color:var(--t0);letter-spacing:.5px}
+.trial-picker-sub{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:1px}
+.trial-picker-arrow{color:var(--t2);flex-shrink:0;transition:transform .2s}
+.trial-picker-btn.open .trial-picker-arrow{transform:rotate(180deg)}
+
+/* ── TRIAL SHEET ── */
+.trial-sheet-overlay{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+.trial-sheet-overlay.show{opacity:1;pointer-events:all}
+.trial-sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:801;
+  background:linear-gradient(180deg,rgba(8,20,40,.99),rgba(2,5,16,1));
+  border:1px solid var(--gborder2);border-bottom:none;
+  border-radius:24px 24px 0 0;padding:0 0 40px;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  max-width:480px;margin:0 auto;
+  box-shadow:0 -8px 60px rgba(0,0,0,.8);
+}
+.trial-sheet.show{transform:translateY(0)}
+.trial-sheet-handle{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);margin:14px auto 0}
+.trial-sheet-header{padding:18px 20px 14px;border-bottom:1px solid var(--gborder)}
+.trial-sheet-title{font-family:var(--title);font-size:18px;font-weight:700;color:#fff;letter-spacing:2px}
+.trial-sheet-sub{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:2px;margin-top:3px}
+.trial-sheet-list{padding:12px 16px 0;display:flex;flex-direction:column;gap:8px}
+.trial-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:16px;
+  border:1.5px solid var(--gborder);background:rgba(255,255,255,.02);
+  cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;
+}
+.trial-item:hover{background:rgba(255,255,255,.04);border-color:var(--gborder2)}
+.trial-item.active-trial{border-color:rgba(0,229,160,.45);background:rgba(0,229,160,.07)}
+.trial-item.active-permanent{border-color:rgba(255,195,77,.45);background:rgba(255,195,77,.07)}
+.trial-item-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.ti-trial{background:linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,229,160,.05))}
+.ti-permanent{background:linear-gradient(135deg,rgba(255,195,77,.2),rgba(255,195,77,.05))}
+.trial-item-name{font-family:var(--title);font-size:16px;font-weight:700;color:var(--t0);letter-spacing:1px}
+.trial-item-desc{font-family:var(--mono);font-size:8px;color:var(--t2);letter-spacing:.5px;margin-top:2px}
+.trial-item-check{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--green),var(--cyan2));display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,229,160,.4);flex-shrink:0;opacity:0;transition:opacity .2s;margin-left:auto}
+.trial-item.active-trial .trial-item-check,.trial-item.active-permanent .trial-item-check{opacity:1}
+
+/* ── TRIAL BADGE IN LIST ── */
+.trial-badge-active{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:7px;letter-spacing:1px;background:rgba(0,229,160,.08);color:var(--green);border:1px solid rgba(0,229,160,.2)}
+.trial-badge-permanent{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:7px;letter-spacing:1px;background:rgba(255,195,77,.08);color:var(--amber);border:1px solid rgba(255,195,77,.2)}
+
+.stat-key{color:#fff}
+.form-label{color:#fff}
+.form-input{color:#fff}
+.form-input::placeholder{color:rgba(255,255,255,.5)}
+.role-picker-sub{color:#fff}
+.trial-picker-sub{color:#fff}
+.akun-user{color:#fff}
+.akun-meta span[style*="t3"]{color:#fff!important}
+.sb-section{color:#fff}
+.sec-label-text{color:#fff}
+.role-item-desc{color:#fff}
+.trial-item-desc{color:#fff}
+.sb-urole{color:#fff}
+
+.stat-key { font-family: var(--sans); font-weight: 600; letter-spacing: 1px; }
+.form-label { font-family: var(--sans); font-weight: 600; letter-spacing: 1px; }
+.akun-user { font-family: var(--sans); font-weight: 500; }
+.role-item-desc { font-family: var(--sans); font-weight: 500; }
+.trial-item-desc { font-family: var(--sans); font-weight: 500; }
+.role-picker-sub { font-family: var(--sans); font-weight: 500; }
+.trial-picker-sub { font-family: var(--sans); font-weight: 500; }
+.sb-section { font-family: var(--sans); font-weight: 600; letter-spacing: 1px; }
+.sec-label-text { font-family: var(--sans); font-weight: 600; letter-spacing: 1px; }
+.sb-urole { font-family: var(--sans); font-weight: 500; }
+.akun-meta span { font-family: var(--sans) !important; font-weight: 500; }
+
+
+</style>
+</head>
+<script>(function(){const t=localStorage.getItem('sync_token');if(!t){window.location.replace('/login.html');throw 0}})()</script>
+<body>
+
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sb-header">
+    <span class="sb-logo">KEN<span>XRAT</span></span>
+    <div class="sb-close" onclick="closeSidebar()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">Admin Panel</div>
+    <div class="sb-item active" id="sbnav-create" onclick="sidebarGo('create')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      Buat Akun
+    </div>
+    <div class="sb-item" id="sbnav-list" onclick="sidebarGo('list')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Daftar Akun
+      <span class="sb-badge" id="sb-count">0</span>
+    </div>
+    <div class="sb-section">Navigasi</div>
+    <div class="sb-item" onclick="window.location.href='dashboard.html'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </div>
+  </div>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar" id="sb-avatar">?</div>
+      <div style="flex:1;min-width:0">
+        <div class="sb-uname" id="sb-uname">Loading...</div>
+        <div class="sb-urole" id="sb-urole">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="sb-toggle" onclick="openSidebar()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </div>
+  <div class="hdr-logo">ADMIN<span>PANEL</span></div>
+  <button class="logout-btn" onclick="doLogout()">
+    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    KELUAR
+  </button>
+</div>
+
+<!-- Role Sheet Overlay -->
+<div class="role-sheet-overlay" id="roleSheetOverlay" onclick="closeRoleSheet()"></div>
+<div class="role-sheet" id="roleSheet">
+  <div class="role-sheet-handle"></div>
+  <div class="role-sheet-header">
+    <div class="role-sheet-title">PILIH ROLE</div>
+    <div class="role-sheet-sub">TENTUKAN AKSES AKUN BARU</div>
+  </div>
+  <div class="role-sheet-list" id="role-sheet-list"></div>
+</div>
+
+<!-- Trial Sheet Overlay -->
+<div class="trial-sheet-overlay" id="trialSheetOverlay" onclick="closeTrialSheet()"></div>
+<div class="trial-sheet" id="trialSheet">
+  <div class="trial-sheet-handle"></div>
+  <div class="trial-sheet-header">
+    <div class="trial-sheet-title">DURASI AKSES</div>
+    <div class="trial-sheet-sub">PILIH MASA BERLAKU AKUN</div>
+  </div>
+  <div class="trial-sheet-list" id="trial-sheet-list"></div>
+</div>
+
+<div class="main">
+
+  <!-- PAGE CREATE -->
+  <div class="page active" id="page-create">
+    <div class="sec-label">
+      <span class="sec-label-text">Buat Akun Baru</span>
+      <div class="sec-label-line"></div>
+    </div>
+
+    <div id="create-denied" style="display:none">
+      <div class="denied-card">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.4" style="opacity:.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        <div class="denied-title">Akses Ditolak</div>
+        <div class="denied-sub">ROLE KAMU TIDAK PUNYA IZIN MEMBUAT AKUN</div>
+      </div>
+    </div>
+
+    <div id="create-form">
+      <div class="form-card">
+        <label class="form-label">Username</label>
+        <input class="form-input" id="inp-username" type="text" placeholder="Masukkan username..." autocomplete="off" spellcheck="false">
+        <label class="form-label">Password</label>
+        <div class="pw-wrap">
+          <input class="form-input" id="inp-password" type="password" placeholder="Masukkan password...">
+          <button class="pw-eye" onclick="togglePw()" tabindex="-1" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="form-divider"></div>
+        <label class="form-label">Role</label>
+        <div class="role-picker-btn" id="role-picker-btn" onclick="openRoleSheet()">
+          <div class="role-picker-dot" id="picker-dot" style="background:var(--t3)"></div>
+          <div style="flex:1;min-width:0">
+            <div class="role-picker-label" id="picker-label">Pilih Role...</div>
+            <div class="role-picker-sub" id="picker-sub">TAP UNTUK MEMILIH</div>
+          </div>
+          <svg class="role-picker-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <input type="hidden" id="selected-role" value="">
+        <div id="trial-picker-block">
+        <label class="form-label">Durasi Akses</label>
+        <div class="trial-picker-btn" id="trial-picker-btn" onclick="openTrialSheet()">
+          <div class="trial-picker-icon" id="trial-picker-icon"></div>
+          <div style="flex:1;min-width:0">
+            <div class="trial-picker-label" id="trial-picker-label">Pilih Durasi...</div>
+            <div class="trial-picker-sub" id="trial-picker-sub">TAP UNTUK MEMILIH</div>
+          </div>
+          <svg class="trial-picker-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <input type="hidden" id="selected-trial" value="">
+        </div>
+        <button class="btn-primary" id="btn-create" onclick="createAkun()" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          BUAT AKUN
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE LIST -->
+  <div class="page" id="page-list">
+    <div class="sec-label">
+      <span class="sec-label-text">Daftar Akun</span>
+      <div class="sec-label-line"></div>
+    </div>
+    <div class="stats-row" id="stats-row"></div>
+    <div style="padding:0 16px 12px">
+  <input class="form-input" id="search-input" type="text" placeholder="Cari username..." oninput="filterAkun()" style="margin-bottom:0">
+</div>
+    <div class="akun-list" id="akun-list">
+      <div style="text-align:center;padding:48px 0;color:var(--t3);font-family:var(--mono);font-size:10px;letter-spacing:2px">MEMUAT...</div>
+    </div>
+  </div>
+
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-create" onclick="goPage('create')">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+    Buat
+  </button>
+  <button class="nav-btn" id="nav-list" onclick="goPage('list')">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Akun
+  </button>
+</nav>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<div class="success-dialog-overlay" id="successDialogOverlay" onclick="closeSuccessDialog()"></div>
+<div class="success-dialog" id="successDialog">
+  <div class="success-dialog-inner">
+    <div class="sd-handle"></div>
+    <div class="sd-icon">✓</div>
+    <div class="sd-title">Pembuatan Akun Sukses!</div>
+    <div class="sd-sub">Tagihan storan 𝟱.𝟬𝟬𝟬</div>
+    <div class="sd-cred">
+      <div class="sd-row"><span class="sd-label">Username</span><span class="sd-value" id="sd-username">-</span></div>
+      <div class="sd-row"><span class="sd-label">Password</span><span class="sd-value" id="sd-password">-</span></div>
+    </div>
+    <img class="sd-img" src="https://files.catbox.moe/r4avok.jpg" alt="bukti">
+    <div class="sd-desc">Informasi: Akun Anda telah berhasil dibuat. Untuk menjaga keaktifan akun, mohon segera melakukan pembayaran sebesar Rp 𝟱.𝟬𝟬𝟬 dan mengirimkan bukti transaksi kepada admin. Akun yang tidak dikonfirmasi dalam 1x24 jam akan dihapus secara otomatis.</div>
+    <a class="sd-btn" href="https://t.me/XBhigh" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 240 240" fill="none"><path d="M186.9 64.6 162.3 184c-1.9 8.4-6.8 10.4-13.8 6.5l-38.1-28.1-18.4 17.7c-2 2-3.7 3.7-7.6 3.7l2.7-38.6L155 81.1c3.4-3 -.7-4.7-5.2-1.7l-86 54.2-37-11.6c-8-2.5-8.2-8 1.7-11.9l144.7-55.8c6.7-2.4 12.5 1.6 13.7 11.3Z" fill="white"/></svg>
+      Kirim Bukti storan
+    </a>
+    <button class="sd-close" type="button" onclick="closeSuccessDialog()">Tutup</button>
+  </div>
+</div>
+
+<script>
+const TOKEN = localStorage.getItem('sync_token')
+let MY_ROLE = ''
+let MY_USER = ''
+let MY_USERNAME_KEY = ''
+let akunData = []
+
+const ROLE_ORDER = ['developer','owner','reseller','member']
+
+const CAN_CREATE = {
+  developer: ['developer','owner','reseller','member'],
+  owner:     ['reseller','member'],
+  reseller:  ['member'],
+  member:    []
+}
+
+const ROLE_META = {
+  member:    { label:'Member',    desc:'Akses dasar perangkat',   dot:'var(--green)',  icon:'ri-member',   svg:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
+  reseller:  { label:'Reseller',  desc:'Buat & kelola akun member',dot:'var(--blue2)', icon:'ri-reseller', svg:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+  vip:       { label:'VIP',       desc:'Akses premium eksklusif', dot:'var(--pink)',   icon:'ri-vip',      svg:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
+  owner:     { label:'Owner',     desc:'Kelola reseller & VIP',   dot:'var(--amber)',  icon:'ri-owner',    svg:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
+  developer: { label:'Developer', desc:'Akses penuh sistem',      dot:'var(--purple)', icon:'ri-developer',svg:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+}
+
+let MY_QUOTA = {}
+
+async function init() {
+  try {
+    const r  = await fetch('/api/me',{headers:{'x-auth-token':TOKEN}})
+    if(r.status===401){doLogout();return}
+    const me = await r.json()
+    MY_ROLE  = me.role || 'member'
+    MY_USER  = me.displayName || me.username || '?'
+    MY_USERNAME_KEY = me.username || ''
+
+    document.getElementById('sb-uname').textContent  = MY_USER
+    document.getElementById('sb-urole').textContent  = MY_ROLE.toUpperCase()
+    document.getElementById('sb-avatar').textContent = MY_USER[0]?.toUpperCase() || '?'
+
+    // Load quota
+    const qr = await fetch('/api/admin/quota',{headers:{'x-auth-token':TOKEN}})
+    const qd = await qr.json()
+    MY_QUOTA = qd
+
+    renderRoleSheet()
+    renderTrialSheet()
+    loadAkunList()
+  } catch(e) {
+    toast('Gagal memuat data','error')
+  }
+}
+
+// ── ROLE SHEET ──
+function renderRoleSheet() {
+  const canCreate = CAN_CREATE[MY_ROLE] || []
+  const form   = document.getElementById('create-form')
+  const denied = document.getElementById('create-denied')
+
+  if (!canCreate.length) {
+    form.style.display   = 'none'
+    denied.style.display = 'block'
+    return
+  }
+
+  const list = document.getElementById('role-sheet-list')
+  list.innerHTML = canCreate.map(r => {
+    const m = ROLE_META[r]
+    return `<div class="role-item" id="ri-${r}" onclick="selectRole('${r}')">
+      <div class="role-item-icon ${m.icon}">${m.svg}</div>
+      <div class="role-item-body">
+        <div class="role-item-name">${m.label}</div>
+        <div class="role-item-desc">${m.desc}</div>
+      </div>
+      <div class="role-item-check">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>`
+  }).join('')
+
+  selectRole(canCreate[canCreate.length - 1])
+}
+
+function openRoleSheet() {
+  document.getElementById('roleSheetOverlay').classList.add('show')
+  document.getElementById('roleSheet').classList.add('show')
+  document.getElementById('role-picker-btn').classList.add('open')
+  document.body.style.overflow = 'hidden'
+}
+
+function closeRoleSheet() {
+  document.getElementById('roleSheetOverlay').classList.remove('show')
+  document.getElementById('roleSheet').classList.remove('show')
+  document.getElementById('role-picker-btn').classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+function selectRole(role) {
+  document.querySelectorAll('.role-item').forEach(el => {
+    el.className = 'role-item'
+  })
+  const item = document.getElementById('ri-' + role)
+  if (item) item.className = 'role-item active-' + role
+
+  document.getElementById('selected-role').value = role
+
+  const m = ROLE_META[role]
+  if (m) {
+    document.getElementById('picker-dot').style.background = m.dot
+    document.getElementById('picker-dot').style.boxShadow = `0 0 8px ${m.dot}`
+    document.getElementById('picker-label').textContent = m.label
+
+    // Tampilkan quota di sub-label
+    if (!MY_QUOTA.unlimited && MY_QUOTA.quota && MY_QUOTA.quota[role]) {
+      const q = MY_QUOTA.quota[role]
+      document.getElementById('picker-sub').textContent = `${q.used}/${q.limit} AKUN TERPAKAI`
+    } else if (MY_QUOTA.unlimited) {
+      document.getElementById('picker-sub').textContent = 'UNLIMITED'
+    } else {
+      document.getElementById('picker-sub').textContent = m.desc
+    }
+  }
+
+  renderTrialSheet(role)
+  setTimeout(() => closeRoleSheet(), 200)
+}
+
+// ── TRIAL SHEET ──
+const TRIAL_ALL = [
+  { value:'3m',        label:'3 Menit',   desc:'Testing — expired 3 menit',  icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2h4"/><path d="M12 14v-4"/><circle cx="12" cy="14" r="8"/></svg>', type:'trial' },
+  { value:'5m',        label:'5 Menit',   desc:'Testing — expired 5 menit',  icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2h4"/><path d="M12 14v-4"/><circle cx="12" cy="14" r="8"/></svg>', type:'trial' },
+  { value:'10m',       label:'10 Menit',  desc:'Testing — expired 10 menit', icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2h4"/><path d="M12 14v-4"/><circle cx="12" cy="14" r="8"/></svg>', type:'trial' },
+  { value:'3d',        label:'3 Hari',    desc:'Akses selama 3 hari',         icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', type:'trial' },
+  { value:'7d',        label:'1 Minggu',  desc:'Akses selama 7 hari',         icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', type:'trial' },
+  { value:'30d',       label:'1 Bulan',   desc:'Akses selama 30 hari',        icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', type:'trial' },
+  { value:'permanent', label:'Permanent', desc:'Akses tidak terbatas',        icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12c-2-2.5-4-4-6-4a4 4 0 0 0 0 8c2 0 4-1.5 6-4z"/><path d="M12 12c2 2.5 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.5-6 4z"/></svg>', type:'permanent' },
+]
+
+function getTrialOptions(targetRole) {
+  // Non-member (reseller, owner, developer) → permanent only
+  if (targetRole && targetRole !== 'member') return [TRIAL_ALL.find(t => t.value === 'permanent')]
+  // Member: developer → semua opsi, owner → 3d/7d/30d only (no menit, no permanent)
+  if (MY_ROLE === 'developer') return TRIAL_ALL
+  if (MY_ROLE === 'owner')     return TRIAL_ALL.filter(t => ['3d','7d','30d','permanent'].includes(t.value))
+  if (MY_ROLE === 'reseller')  return [TRIAL_ALL.find(t => t.value === 'permanent')]
+  return []
+}
+
+
+function filterAkun() {
+  const q = (document.getElementById('search-input')?.value||'').toLowerCase().trim()
+  const hasil = q ? akunData.filter(a=>(a.username||'').toLowerCase().includes(q)||(a.displayName||'').toLowerCase().includes(q)) : akunData
+  const el = document.getElementById('akun-list')
+  el.innerHTML = hasil.length ? hasil.map(acc=>{
+    const initial=(acc.displayName||'?')[0].toUpperCase()
+    const m=ROLE_META[acc.role]||ROLE_META.member
+    const canDel=canDelete(MY_ROLE,acc.role,acc.username)
+    const tgl=acc.createdAt?new Date(acc.createdAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'2-digit'}):'—'
+    const iconPermanent=`<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 12c-2-2.5-4-4-6-4a4 4 0 0 0 0 8c2 0 4-1.5 6-4z"/><path d="M12 12c2 2.5 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.5-6 4z"/></svg>`
+    const iconClock=`<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
+    const iconWarn=`<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+    const trialBadge=!acc.trialExpiry?`<span class="trial-badge-permanent">${iconPermanent} PERMANENT</span>`:new Date(acc.trialExpiry)-new Date()<=0?`<span class="trial-badge-active" style="color:var(--red);border-color:rgba(255,77,109,.2);background:rgba(255,77,109,.08)">${iconWarn} EXPIRED</span>`:`<span class="trial-badge-active">${iconClock} ${Math.ceil((new Date(acc.trialExpiry)-new Date())/(1000*60))<60?`SISA ${Math.ceil((new Date(acc.trialExpiry)-new Date())/(1000*60))} MENIT`:`SISA ${Math.ceil((new Date(acc.trialExpiry)-new Date())/(1000*60*60*24))} HARI`}</span>`
+    return `<div class="akun-card"><div class="akun-av av-${acc.role||'member'}">${initial}</div><div class="akun-info"><div class="akun-name">${esc(acc.displayName||acc.username)}</div><div class="akun-user">Dibuat oleh: ${esc(acc.createdBy||'—')}</div><div class="akun-meta"><span class="role-badge role-${acc.role||'member'}">${m.label}</span><span style="font-family:var(--mono);font-size:8px;color:var(--t3)">${tgl}</span>${trialBadge}</div></div>${canDel?`<div class="del-btn" onclick="confirmDelete('${esc(acc.username)}','${esc(acc.displayName||acc.username)}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></div>`:''}</div>`
+  }).join('') : `<div style="text-align:center;padding:56px 0;color:var(--t3);font-family:var(--mono);font-size:10px;letter-spacing:2px">TIDAK DITEMUKAN</div>`
+}
+
+
+function renderTrialSheet(targetRole) {
+  const canUseTrial = ['developer','owner','reseller'].includes(MY_ROLE)
+  const trialBlock  = document.getElementById('trial-picker-block')
+  if (trialBlock) trialBlock.style.display = canUseTrial ? 'block' : 'none'
+  if (!canUseTrial) return
+
+  const opts = getTrialOptions(targetRole)
+  const list = document.getElementById('trial-sheet-list')
+  list.innerHTML = opts.map(t => `
+    <div class="trial-item" id="ti-${t.value}" onclick="selectTrial('${t.value}')">
+      <div class="trial-item-icon ti-${t.type}">${t.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div class="trial-item-name">${t.label}</div>
+        <div class="trial-item-desc">${t.desc}</div>
+      </div>
+      <div class="trial-item-check">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>`).join('')
+
+  // Default selection
+  const defaultVal = targetRole !== 'member' ? 'permanent' : (MY_ROLE === 'owner' ? '3d' : 'permanent')
+  selectTrial(defaultVal)
+}
+
+function openTrialSheet() {
+  document.getElementById('trialSheetOverlay').classList.add('show')
+  document.getElementById('trialSheet').classList.add('show')
+  document.getElementById('trial-picker-btn').classList.add('open')
+  document.body.style.overflow = 'hidden'
+}
+
+function closeTrialSheet() {
+  document.getElementById('trialSheetOverlay').classList.remove('show')
+  document.getElementById('trialSheet').classList.remove('show')
+  document.getElementById('trial-picker-btn').classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+function selectTrial(value) {
+  const currentRole = document.getElementById('selected-role').value
+  document.querySelectorAll('.trial-item').forEach(el => el.className = 'trial-item')
+  const item = document.getElementById('ti-' + value)
+  const opt  = getTrialOptions(currentRole).find(t => t.value === value)
+  if (item && opt) {
+    item.className = `trial-item active-${opt.type}`
+    document.getElementById('selected-trial').value = value
+    document.getElementById('trial-picker-label').textContent = opt.label
+    document.getElementById('trial-picker-sub').textContent = opt.desc
+    const icon = document.getElementById('trial-picker-icon')
+    icon.style.background = opt.type === 'permanent' ? 'var(--amber)' : 'var(--green)'
+    icon.style.boxShadow  = opt.type === 'permanent' ? '0 0 8px var(--amber)' : '0 0 8px var(--green)'
+  }
+  setTimeout(() => closeTrialSheet(), 200)
+}
+
+// ── CREATE ──
+let isCreating = false
+async function createAkun() {
+  if (isCreating) return
+  const username      = document.getElementById('inp-username').value.trim()
+  const password      = document.getElementById('inp-password').value.trim()
+  const role          = document.getElementById('selected-role').value
+  const trialDuration = document.getElementById('selected-trial').value
+  const btn           = document.getElementById('btn-create')
+
+  if (!username)      return toast('Username tidak boleh kosong','error')
+  if (!password)      return toast('Password tidak boleh kosong','error')
+  if (!role)          return toast('Pilih role terlebih dahulu','error')
+  if (!trialDuration) return toast('Pilih durasi akses terlebih dahulu','error')
+
+  isCreating = true
+  btn.disabled = true
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .7s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> MEMPROSES...`
+
+  try {
+    const r = await fetch('/api/admin/create-account',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-auth-token':TOKEN},
+      body:JSON.stringify({username, password, role, trialDuration})
+    })
+    const data = await r.json()
+    if (!r.ok) throw new Error(data.error || 'Gagal membuat akun')
+    const durasiLabel = TRIAL_ALL.find(t=>t.value===trialDuration)?.label || trialDuration
+    openSuccessDialog(username, password)
+    document.getElementById('inp-username').value = ''
+    document.getElementById('inp-password').value = ''
+    // Refresh quota
+    fetch('/api/admin/quota',{headers:{'x-auth-token':TOKEN}})
+      .then(r=>r.json()).then(qd=>{ MY_QUOTA=qd; selectRole(document.getElementById('selected-role').value) })
+    loadAkunList()
+  } catch(e) {
+    toast(e.message,'error')
+  } finally {
+    isCreating = false
+    btn.disabled = false
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg> BUAT AKUN`
+  }
+}
+
+// ── LIST AKUN ──
+async function loadAkunList() {
+  const r    = await fetch('/api/admin/accounts',{headers:{'x-auth-token':TOKEN}})
+  if (r.status===401){doLogout();return}
+  const allList = await r.json()
+
+  // Filter: developer lihat semua, lainnya hanya akun yang dibuat oleh dia
+  const list = MY_ROLE === 'developer'
+    ? allList
+    : allList.filter(acc => acc.createdBy === MY_USERNAME_KEY || acc.username === MY_USERNAME_KEY)
+
+  document.getElementById('sb-count').textContent = list.length
+
+  const stats = {member:0,reseller:0,owner:0,developer:0}
+  list.forEach(a=>{if(stats[a.role]!==undefined)stats[a.role]++})
+
+  const roleColors = {member:'var(--green)',reseller:'var(--blue2)',owner:'var(--amber)',developer:'var(--purple)'}
+  document.getElementById('stats-row').innerHTML = Object.entries(stats)
+    .filter(([,count]) => count > 0)
+    .map(([role,count])=>`
+    <div class="stat-chip">
+      <div class="stat-val" style="color:${roleColors[role]||'var(--t2)'}">${count}</div>
+      <div class="stat-key">${role}</div>
+    </div>`).join('')
+    
+    akunData = list
+  if (document.getElementById('search-input')?.value) return filterAkun()
+
+  const el = document.getElementById('akun-list')
+  if (!list.length) {
+    el.innerHTML = `<div style="text-align:center;padding:56px 0;color:var(--t3);font-family:var(--mono);font-size:10px;letter-spacing:2px">BELUM ADA AKUN</div>`
+    return
+  }
+
+  el.innerHTML = list.map(acc => {
+    const initial = (acc.displayName||'?')[0].toUpperCase()
+    const m       = ROLE_META[acc.role] || ROLE_META.member
+    const canDel  = canDelete(MY_ROLE, acc.role, acc.username)
+    const tgl     = acc.createdAt ? new Date(acc.createdAt).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'2-digit'}) : '—'
+    const trialBadge = (() => {
+      const iconPermanent = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 12c-2-2.5-4-4-6-4a4 4 0 0 0 0 8c2 0 4-1.5 6-4z"/><path d="M12 12c2 2.5 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.5-6 4z"/></svg>`
+      const iconClock     = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
+      const iconWarn      = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+      if (!acc.trialExpiry) return `<span class="trial-badge-permanent">${iconPermanent} PERMANENT</span>`
+      const diff = new Date(acc.trialExpiry) - new Date()
+      if (diff <= 0) return `<span class="trial-badge-active" style="color:var(--red);border-color:rgba(255,77,109,.2);background:rgba(255,77,109,.08)">${iconWarn} EXPIRED</span>`
+      const sisaMenit = Math.ceil(diff / (1000*60))
+      const sisaHari  = Math.ceil(diff / (1000*60*60*24))
+      const label = sisaMenit < 60 ? `SISA ${sisaMenit} MENIT` : `SISA ${sisaHari} HARI`
+      return `<span class="trial-badge-active">${iconClock} ${label}</span>`
+    })()
+    return `<div class="akun-card">
+      <div class="akun-av av-${acc.role||'member'}">${initial}</div>
+      <div class="akun-info">
+        <div class="akun-name">${esc(acc.displayName||acc.username)}</div>
+        <div class="akun-user">Dibuat oleh: ${esc(acc.createdBy||'—')}</div>
+        <div class="akun-meta">
+          <span class="role-badge role-${acc.role||'member'}">${m.label}</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--t3)">${tgl}</span>
+          ${trialBadge}
+        </div>
+      </div>
+      ${canDel ? `<div class="del-btn" onclick="confirmDelete('${esc(acc.username)}','${esc(acc.displayName||acc.username)}')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </div>` : ''}
+    </div>`
+  }).join('')
+}
+
+function canDelete(myRole, targetRole, targetUser) {
+  if (targetUser === MY_USERNAME_KEY) return false
+  const myIdx     = ROLE_ORDER.indexOf(myRole)
+  const targetIdx = ROLE_ORDER.indexOf(targetRole)
+  return myIdx !== -1 && targetIdx !== -1 && myIdx < targetIdx
+}
+
+function confirmDelete(username, displayName) {
+  const old = document.getElementById('confirm-overlay')
+  if (old) old.remove()
+  const ov = document.createElement('div')
+  ov.id = 'confirm-overlay'
+  ov.className = 'confirm-overlay'
+  ov.innerHTML = `<div class="confirm-box">
+    <div class="confirm-title">Hapus Akun</div>
+    <div class="confirm-sub">Yakin hapus akun <strong style="color:var(--t0)">"${esc(displayName)}"</strong>?<br>Semua sesi aktif akan dihentikan.</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="document.getElementById('confirm-overlay').remove()">Batal</button>
+      <button class="confirm-del" onclick="deleteAkun('${esc(username)}','${esc(displayName)}')">Hapus</button>
+    </div>
+  </div>`
+  document.body.appendChild(ov)
+}
+
+async function deleteAkun(username, displayName) {
+  document.getElementById('confirm-overlay')?.remove()
+  const r = await fetch(`/api/admin/accounts/${encodeURIComponent(username)}`,{method:'DELETE',headers:{'x-auth-token':TOKEN}})
+  const data = await r.json()
+  if (!r.ok) return toast(data.error||'Gagal hapus akun','error')
+  toast(`Akun "${displayName}" dihapus`,'info')
+  loadAkunList()
+}
+
+function openSuccessDialog(username,password){
+  document.getElementById('sd-username').textContent = username
+  document.getElementById('sd-password').textContent = password
+  document.getElementById('successDialogOverlay').classList.add('show')
+  document.getElementById('successDialog').classList.add('show')
+  document.body.style.overflow = 'hidden'
+}
+function closeSuccessDialog(){
+  document.getElementById('successDialogOverlay').classList.remove('show')
+  document.getElementById('successDialog').classList.remove('show')
+  document.body.style.overflow = ''
+}
+
+function togglePw() {
+  const inp = document.getElementById('inp-password')
+  inp.type  = inp.type==='password' ? 'text' : 'password'
+}
+
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'))
+  document.getElementById('page-'+page).classList.add('active')
+  document.getElementById('nav-'+page).classList.add('active')
+  if (page==='list') loadAkunList()
+  closeSidebar()
+}
+
+function sidebarGo(page) {
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'))
+  document.getElementById('sbnav-'+page)?.classList.add('active')
+  goPage(page)
+}
+
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open')
+  document.getElementById('sbOverlay').classList.add('show')
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open')
+  document.getElementById('sbOverlay').classList.remove('show')
+}
+
+function doLogout() {
+  fetch('/api/logout',{method:'POST',headers:{'x-auth-token':TOKEN}}).finally(()=>{
+    localStorage.removeItem('sync_token')
+    localStorage.removeItem('sync_user')
+    window.location.replace('/login.html')
+  })
+}
+
+function toast(msg,type='info') {
+  const wrap = document.getElementById('toast-wrap')
+  const t    = document.createElement('div')
+  t.className= `toast ${type}`
+  t.innerHTML= `<div class="td"></div>${esc(msg)}`
+  wrap.appendChild(t)
+  setTimeout(()=>t.remove(),2800)
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')
+}
+
+init()
+</script>
+</body>
+</html>

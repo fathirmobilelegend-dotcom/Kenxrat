@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KENXRAT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background: #040810;
+        }
+
+        .splash {
+            position: relative;
+            width: 100vw; height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* ── VIDEO ── */
+        #videoBackground {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+        }
+
+        video::-webkit-media-controls,
+        video::-webkit-media-controls-enclosure,
+        video::-webkit-media-controls-panel,
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-start-playback-button,
+        video::-webkit-media-controls-overlay-play-button,
+        video::-internal-media-controls-overlay-cast-button { display: none !important; }
+
+        #videoBackground.ready { opacity: 1; }
+
+        /* ── OVERLAYS ── */
+        .intro {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #040810;
+            z-index: 10;
+        }
+        .intro.fade-animation {
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+        @keyframes fadeOut {
+            0%   { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .overlay {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                linear-gradient(to bottom, rgba(4,8,16,.55) 0%, rgba(4,8,16,.3) 50%, rgba(4,8,16,.7) 100%);
+            z-index: 2;
+            opacity: 0; transition: opacity 1.2s ease;
+        }
+        .overlay.show { opacity: 1; }
+
+        /* Grid */
+        .overlay-grid {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 2; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(79,141,255,.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79,141,255,.022) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0; transition: opacity 1.5s ease;
+        }
+        .overlay-grid.show { opacity: 1; }
+
+        /* Vignette */
+        .vignette {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3; pointer-events: none;
+            background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 35%, rgba(4,8,16,.8) 100%);
+        }
+
+
+
+        /* ── CONTENT ── */
+        .content {
+            position: relative;
+            z-index: 5;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .5s cubic-bezier(.22,1,.36,1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .content.show { opacity: 1; transform: translateY(0); }
+
+        /* Badge */
+        .badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 5px 16px;
+            border: 1px solid rgba(79,141,255,.25);
+            border-radius: 100px;
+            background: rgba(79,141,255,.07);
+            backdrop-filter: blur(10px);
+            margin-bottom: 24px;
+        }
+        .badge-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #7eabff;
+            box-shadow: 0 0 6px #4f8dff;
+            animation: blink 2s ease infinite;
+        }
+        @keyframes blink {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:.4; transform:scale(.6); }
+        }
+        .badge-text {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 8px; color: #7eabff;
+            letter-spacing: 3px; text-transform: uppercase;
+        }
+
+        /* ── TITLE ── */
+        .title-wrap {
+            position: relative;
+            line-height: 1;
+            margin-bottom: 6px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glitch {
+    font-family: 'Genetic', 'Syne', sans-serif;
+    font-size: clamp(24px, 7vw, 44px);
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    animation: glitch 3.5s infinite;
+}
+
+        .glitch {
+    animation: none !important;
+}
+.glitch::before,
+.glitch::after {
+    display: none !important;
+}
+        .glitch::after {
+            animation: glitchBot 3.5s infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            opacity: .85;
+        }
+
+        @keyframes glitch {
+            0%,100% { transform: none; }
+            7%  { transform: skew(-.5deg,-.9deg); }
+            10% { transform: none; }
+            30% { transform: skew(.8deg,-.1deg); }
+            35% { transform: none; }
+            55% { transform: skew(-1deg,.2deg); }
+            60% { transform: none; }
+            80% { transform: skew(.4deg,.8deg); }
+            85% { transform: none; }
+        }
+        @keyframes glitchTop {
+            0%,100% { transform: translateX(0); }
+            10% { transform: translateX(-4px); }
+            20% { transform: translateX(4px); }
+            40% { transform: translateX(2px); }
+            60% { transform: translateX(-2px); }
+            80% { transform: translateX(0); }
+        }
+        @keyframes glitchBot {
+            0%,100% { transform: translateX(0); }
+            10% { transform: translateX(4px); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(-2px); }
+            60% { transform: translateX(2px); }
+            80% { transform: translateX(0); }
+        }
+
+        .word-gene {
+            color: #ffffff;
+            text-shadow:
+                0 0 40px rgba(255,255,255,.15),
+                0 4px 30px rgba(0,0,0,.8);
+        }
+        .word-tical {
+            color: #4f8dff;
+            text-shadow:
+                0 0 40px rgba(79,141,255,.5),
+                0 0 80px rgba(79,141,255,.25),
+                0 4px 30px rgba(0,0,0,.7);
+        }
+
+        /* Divider */
+        .divider {
+            width: 0; height: 1.5px;
+            background: linear-gradient(90deg, transparent, #4f8dff, rgba(79,141,255,.4), transparent);
+            margin: 16px auto 18px;
+            transition: width 1s ease .8s;
+        }
+        .divider.show { width: 140px; }
+
+        /* ── DESC ── */
+        .desc {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: clamp(10px, 3vw, 13px);
+            font-weight: 300;
+            color: rgba(184,211,255,.7);
+            line-height: 1.9;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: glitchText 5s infinite;
+        }
+
+        @keyframes glitchText {
+            0%,100% { transform: none; opacity: 1; }
+            15% { transform: translateX(1px); opacity: .85; }
+            18% { transform: translateX(-1px); opacity: .85; }
+            20% { transform: none; opacity: 1; }
+            50% { transform: translateX(-1px); opacity: .85; }
+            53% { transform: translateX(1px); opacity: .85; }
+            55% { transform: none; opacity: 1; }
+        }
+
+        /* ── SKIP ── */
+        .skip-btn {
+            position: absolute;
+            top: 24px; right: 24px;
+            z-index: 8;
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 20px;
+            background: rgba(4,8,16,.55);
+            color: rgba(255,255,255,.65);
+            border: 1.5px solid rgba(255,255,255,.18);
+            border-radius: 100px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all .3s ease;
+            pointer-events: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+        .skip-btn.show { opacity: 1; pointer-events: auto; }
+        .skip-btn:hover {
+            background: rgba(79,141,255,.12);
+            border-color: rgba(79,141,255,.4);
+            color: #7eabff;
+            transform: scale(1.02);
+        }
+
+        /* Progress drain */
+        .skip-progress {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 1.5px;
+            width: 100%;
+            background: linear-gradient(90deg, #4f8dff, #7eabff);
+            transform-origin: left;
+            animation: drain 10s linear forwards;
+        }
+        @keyframes drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+        /* ── COUNTDOWN ── */
+        .countdown-wrap {
+            position: absolute;
+            bottom: 38px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 8;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            opacity: 0; transition: opacity .5s ease;
+        }
+        .countdown-wrap.show { opacity: 1; }
+
+        .ring-wrap { position: relative; width: 54px; height: 54px; }
+        .ring-svg { transform: rotate(-90deg); }
+        .ring-bg { stroke: rgba(79,141,255,.1); fill: none; stroke-width: 2; }
+        .ring-fg {
+            stroke: #7eabff; fill: none; stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dasharray: 148;
+            stroke-dashoffset: 0;
+            animation: ringDrain 10s linear forwards;
+        }
+        @keyframes ringDrain { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 148; } }
+
+        .count-num {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px; color: #7eabff;
+            letter-spacing: 1px;
+        }
+        .count-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 7px; color: rgba(74,106,154,.6);
+            letter-spacing: 2.5px; text-transform: uppercase;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            position: absolute; bottom: 14px; left: 0; right: 0;
+            z-index: 8; text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 7px; color: rgba(74,106,154,.35);
+            letter-spacing: 3px; text-transform: uppercase;
+            opacity: 0; transition: opacity .5s ease 1s;
+        }
+        .footer.show { opacity: 1; }
+
+        .error-message {
+            position: absolute; bottom: 110px; left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,.3); font-size: .8rem;
+            z-index: 9; display: none;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        .error-message.show { display: block; }
+
+        @media (max-width: 480px) {
+            .skip-btn { top: 16px; right: 16px; }
+            .corner.tl { top: 14px; left: 14px; }
+            .corner.tr { top: 14px; right: 14px; }
+            .corner.bl { bottom: 14px; left: 14px; }
+            .corner.br { bottom: 14px; right: 14px; }
+        }
+        
+        @font-face {
+  font-family: 'Genetic';
+  src: url('Kenxrat.ttf') format('truetype');
+}
+        
+    </style>
+</head>
+<body>
+<div class="splash">
+    <div class="intro" id="intro"></div>
+
+    <video autoplay muted loop playsinline id="videoBackground" preload="auto" disablePictureInPicture>
+        <source src="splash.mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="overlay-grid" id="grid"></div>
+    <div class="vignette"></div>
+
+    <!-- Corners removed -->
+
+    <!-- Content -->
+    <div class="content" id="content">
+        <div class="badge">
+            <div class="badge-dot"></div>
+            <span class="badge-text">KENZIE - REVERSE</span>
+        </div>
+
+        <div class="title-wrap">
+            <span class="glitch word-gene" data-text="GENE">KEN</span><span class="glitch word-tical" data-text="TICAL">XRAT</span>
+        </div>
+
+        <div class="divider" id="divider"></div>
+
+        <p class="desc">
+            Tidak lebih menyedihkan<br>
+            dari anjing gila yang merasa<br>
+            dirinya serigala
+        </p>
+    </div>
+
+    <!-- Skip -->
+    <button class="skip-btn" id="skipBtn">
+        LEWATI
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"/><line x1="17" y1="6" x2="17" y2="18"/>
+        </svg>
+        <div class="skip-progress"></div>
+    </button>
+
+    <!-- Countdown -->
+    <div class="countdown-wrap" id="countdown">
+        <div class="ring-wrap">
+            <svg class="ring-svg" width="54" height="54" viewBox="0 0 54 54">
+                <circle class="ring-bg" cx="27" cy="27" r="23.5"/>
+                <circle class="ring-fg" cx="27" cy="27" r="23.5"/>
+            </svg>
+            <div class="count-num" id="countNum">10</div>
+        </div>
+        <div class="count-label">KE DASHBOARD</div>
+    </div>
+
+    <div class="footer" id="footer">KENXRAT · CREATED BY KENZIE</div>
+    <div class="error-message" id="errMsg">⚠️ Video tidak ditemukan</div>
+</div>
+
+<script>
+    const video    = document.getElementById('videoBackground');
+    const intro    = document.getElementById('intro');
+    const overlay  = document.getElementById('overlay');
+    const grid     = document.getElementById('grid');
+    const content  = document.getElementById('content');
+    const divider  = document.getElementById('divider');
+    const skipBtn  = document.getElementById('skipBtn');
+    const countdown= document.getElementById('countdown');
+    const footer   = document.getElementById('footer');
+    const errMsg   = document.getElementById('errMsg');
+
+
+    video.controls = false;
+    video.addEventListener('contextmenu', e => e.preventDefault());
+    video.addEventListener('click',       e => e.preventDefault());
+    video.addEventListener('touchstart',  e => e.preventDefault(), { passive: false });
+
+    // ── AUDIO ──
+    const musik = new Audio('sound.mp3');
+    musik.loop = true;
+    musik.volume = 0.65;
+
+    function playMusic() {
+        musik.play().catch(() => {
+            const unlock = () => {
+                musik.play();
+                document.body.removeEventListener('click',      unlock);
+                document.body.removeEventListener('touchstart', unlock);
+            };
+            document.body.addEventListener('click',      unlock);
+            document.body.addEventListener('touchstart', unlock);
+        });
+    }
+
+    function stopMusic() { musik.pause(); musik.currentTime = 0; }
+
+    // ── REDIRECT ──
+    let timeLeft = 10;
+    let ticker;
+
+    function goNext() {
+        clearInterval(ticker);
+        stopMusic();
+        document.body.style.transition = 'opacity .6s ease';
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 620);
+    }
+
+    const autoTimer = setTimeout(goNext, 10000);
+
+    function tick() {
+        timeLeft--;
+        const el = document.getElementById('countNum');
+        if (el) el.textContent = timeLeft;
+        if (timeLeft <= 0) { clearTimeout(autoTimer); goNext(); }
+    }
+
+    // ── REVEAL ──
+    let videoReady = false;
+    function onVideoReady() {
+        if (videoReady) return;
+        videoReady = true;
+        intro.style.display = 'none';
+        video.classList.add('ready');
+        overlay.classList.add('show');
+        grid.classList.add('show');
+        content.classList.add('show');
+        divider.classList.add('show');
+        skipBtn.classList.add('show');
+        countdown.classList.add('show');
+        footer.classList.add('show');
+        ticker = setInterval(tick, 1000);
+    }
+
+    if (video.readyState >= 3) {
+        onVideoReady();
+    } else {
+        video.addEventListener('canplay',    onVideoReady);
+        video.addEventListener('loadeddata', onVideoReady);
+        setTimeout(onVideoReady, 1500);
+    }
+
+    video.addEventListener('error', () => {
+        errMsg.classList.add('show');
+        skipBtn.classList.add('show');
+        countdown.classList.add('show');
+    });
+
+    video.addEventListener('ended', goNext);
+
+    document.addEventListener('touchstart', () => {
+        if (video.paused && !video.error) video.play().catch(() => {});
+    }, { once: true });
+
+    skipBtn.addEventListener('click', () => {
+        clearTimeout(autoTimer);
+        goNext();
+    });
+
+    window.addEventListener('load', () => playMusic());
+</script>
+</body>
+</html>

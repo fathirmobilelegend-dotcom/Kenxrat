@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Kenxrat — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  background: #0b0d1e;
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  color: #f0f8ff;
+}
+
+/* ── LATAR BELAKANG ANIMASI ── */
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to right, 
+    #0a0e1a 0%, 
+    #1a2a4a 20%, 
+    #3a5a7a 50%, 
+    #1a2a4a 80%, 
+    #0a0e1a 100%
+  );
+  background-size: 300% 100%;
+  animation: gradMove 15s ease infinite alternate;
+}
+@keyframes gradMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Partikel bergerak (bintang) */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(100, 180, 255, 0.6);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+@keyframes float {
+  0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+/* ── WRAPPER ── */
+.page-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(60px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ── CARD dengan clip-path miring ── */
+.login-card {
+  background: rgba(8, 12, 30, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(100, 180, 255, 0.2);
+  border-radius: 20px 20px 0 0;
+  padding: 32px 24px 28px;
+  position: relative;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+  transition: clip-path 0.3s;
+}
+
+/* Border glow */
+.login-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(135deg, rgba(60,130,255,0.5), rgba(0,200,220,0.3));
+  z-index: -1;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+}
+
+/* Header */
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 12px;
+}
+.card-title-group {
+  flex: 1;
+}
+.card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #f0f8ff, #7ab8ff, #40d0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+.card-sub {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(176, 200, 232, 0.5);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.divider-line {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #4a8cff, #40d0e0);
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+/* Save button */
+.save-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+.save-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 180, 255, 0.2);
+  background: rgba(60, 130, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+.save-btn:hover {
+  border-color: rgba(100, 180, 255, 0.5);
+  background: rgba(60, 130, 255, 0.16);
+  box-shadow: 0 0 20px rgba(60, 130, 255, 0.15);
+}
+.save-btn.saved {
+  border-color: rgba(0, 200, 220, 0.5);
+  background: rgba(0, 200, 220, 0.12);
+}
+.save-label {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  color: rgba(176, 200, 232, 0.5);
+  text-transform: uppercase;
+}
+
+/* ── FIELD FLOATING LABEL ── */
+.field {
+  position: relative;
+  margin-bottom: 22px;
+}
+.field-label {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(176, 200, 232, 0.4);
+  transition: 0.2s ease;
+  pointer-events: none;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 1px;
+}
+.field-input:focus + .field-label,
+.field-input:not(:placeholder-shown) + .field-label {
+  top: -8px;
+  left: 12px;
+  font-size: 9px;
+  color: #7ab8ff;
+  background: rgba(8, 12, 30, 0.8);
+  padding: 0 6px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+.field-wrap {
+  position: relative;
+}
+.field-input {
+  width: 100%;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #f0f8ff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 44px 8px 14px;
+  outline: none;
+  transition: 0.3s ease;
+}
+.field-input:focus {
+  border-color: rgba(100, 180, 255, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 4px rgba(60, 130, 255, 0.08);
+}
+.field-input::placeholder {
+  color: transparent;
+}
+.field-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+.pwd-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  padding: 6px;
+}
+.pwd-toggle:hover { color: #7ab8ff; }
+
+/* ── REMEMBER ── */
+.remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0 22px;
+}
+.remember-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.custom-check {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+.custom-check.checked {
+  background: rgba(60,130,255,0.15);
+  border-color: #7ab8ff;
+}
+.remember-label {
+  font-size: 10px;
+  color: rgba(176,200,232,0.5);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── TOMBOL LOGIN ── */
+.btn-login {
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2a5fcf, #00b4d8);
+  background-size: 200% 200%;
+  animation: gradBtn 3s ease infinite alternate;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 4px 30px rgba(60, 130, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes gradBtn {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.btn-login:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 50px rgba(60, 130, 255, 0.5);
+}
+.btn-login:active { transform: translateY(0); }
+.btn-login:disabled { opacity: 0.4; pointer-events: none; }
+
+.btn-login .spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.btn-login.loading .spinner { display: block; }
+.btn-login.loading .btn-text { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── SOCIAL BUTTONS ── */
+.social-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+.soc-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 0;
+  border-radius: 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.soc-btn.tele {
+  background: rgba(60,130,255,0.08);
+  border-color: rgba(60,130,255,0.2);
+  color: #7ab8ff;
+}
+.soc-btn.tele:hover {
+  background: rgba(60,130,255,0.18);
+  border-color: rgba(60,130,255,0.5);
+  transform: translateY(-2px);
+}
+/* tombol WhatsApp */
+.soc-btn.whatsapp {
+  background: rgba(37,211,102,0.08);
+  border-color: rgba(37,211,102,0.2);
+  color: #25d366;
+}
+.soc-btn.whatsapp:hover {
+  background: rgba(37,211,102,0.18);
+  border-color: rgba(37,211,102,0.4);
+  transform: translateY(-2px);
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  text-align: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  color: rgba(176,200,232,0.2);
+  text-transform: uppercase;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.footer-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(60,130,255,0.2);
+}
+
+/* ── TOAST ── */
+.toast-wrap {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  width: calc(100% - 40px);
+  max-width: 380px;
+}
+.toast {
+  width: 100%;
+  background: rgba(8,12,30,0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(224,92,92,0.15);
+  border-left: 3px solid #e05c5c;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.7);
+  animation: toastIn 0.4s ease both;
+  pointer-events: all;
+  position: relative;
+}
+.toast.success {
+  border-color: rgba(0,200,220,0.15);
+  border-left-color: #40d0e0;
+}
+.toast.hide { animation: toastOut 0.25s ease forwards; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-10px) scale(0.97); }
+}
+.toast-icon-wrap {
+  width: 30px; height: 30px;
+  border-radius: 10px;
+  background: rgba(224,92,92,0.1);
+  border: 1px solid rgba(224,92,92,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.toast.success .toast-icon-wrap {
+  background: rgba(0,200,220,0.1);
+  border-color: rgba(0,200,220,0.15);
+}
+.toast-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #f08080;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.toast.success .toast-title { color: #40d0e0; }
+.toast-msg {
+  font-size: 9.5px;
+  color: rgba(220,170,170,0.7);
+  line-height: 1.4;
+}
+.toast.success .toast-msg { color: rgba(150,220,230,0.7); }
+.toast-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #e05c5c, rgba(224,92,92,0.3));
+  border-radius: 0 0 0 14px;
+  animation: toastProgress 3s linear forwards;
+}
+.toast.success .toast-progress {
+  background: linear-gradient(90deg, #40d0e0, rgba(0,200,220,0.3));
+}
+@keyframes toastProgress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="particles" id="particles"></div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<div class="page-wrap">
+  <div class="login-card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-title">● KENXRAT</div>
+        <div class="card-sub">Secure Access</div>
+        <div class="divider-line"></div>
+      </div>
+      <div class="save-badge" onclick="toggleSave()" title="Simpan Akun">
+        <div class="save-btn" id="saveBtn">
+          <svg id="saveIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b0c8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+          </svg>
+        </div>
+        <span class="save-label" id="saveLabel">SIMPAN</span>
+      </div>
+    </div>
+
+    <!-- USERNAME -->
+    <div class="field">
+      <div class="field-wrap">
+        <input class="field-input" id="username" type="text" placeholder=" " autocomplete="username" autocapitalize="none" spellcheck="false">
+        <label class="field-label">Username</label>
+        <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="field">
+      <div class="field-wrap">
+        <input class="field-input" id="password" type="password" placeholder=" " autocomplete="current-password">
+        <label class="field-label">Password</label>
+        <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <button class="pwd-toggle" id="pwdToggle" type="button" tabindex="-1" onclick="togglePwd()">
+          <svg id="eyeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- REMEMBER -->
+    <div class="remember-row">
+      <div class="remember-check" onclick="toggleRemember()">
+        <div class="custom-check" id="rememberCheck"></div>
+        <span class="remember-label">Ingat saya</span>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">
+      <div class="spinner"></div>
+      <span class="btn-text">Masuk</span>
+    </button>
+
+    <!-- SOCIAL BUTTONS: Telegram & WhatsApp -->
+    <div class="social-row">
+      <button class="soc-btn tele" onclick="window.location.href='https://t.me/kenzie_lenz';">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+        BELI
+      </button>
+      <button class="soc-btn whatsapp" onclick="window.location.href='https://wa.me/6285815677915';">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        BELI
+      </button>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>KENXRAT</span>
+    <div class="footer-dot"></div>
+    <span>2026</span>
+    <div class="footer-dot"></div>
+    <span>KENZIE</span>
+  </div>
+</div>
+
+<!-- ─── SCRIPT (SAMA PERSIS) ─── -->
+<script>
+let rememberMe = false, accountSaved = false;
+
+function loadSaved() {
+  const saved = localStorage.getItem('sync_saved_creds');
+  if (saved) {
+    try {
+      const { username, password } = JSON.parse(atob(saved));
+      document.getElementById('username').value = username || '';
+      document.getElementById('password').value = password || '';
+      accountSaved = true;
+      updateSaveUI();
+      showToast('success', 'Akun Dimuat', 'Kredensial tersimpan berhasil dimuat');
+    } catch(e){}
+  }
+  const rem = localStorage.getItem('sync_remember');
+  if (rem === '1') {
+    rememberMe = true;
+    document.getElementById('rememberCheck').classList.add('checked');
+    document.getElementById('rememberCheck').innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7ab8ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  }
+}
+
+function updateSaveUI() {
+  const btn = document.getElementById('saveBtn');
+  const icon = document.getElementById('saveIcon');
+  const lbl = document.getElementById('saveLabel');
+  if (accountSaved) {
+    btn.classList.add('saved');
+    icon.setAttribute('stroke', '#40d0e0');
+    lbl.textContent = 'TERSIMPAN';
+  } else {
+    btn.classList.remove('saved');
+    icon.setAttribute('stroke', '#b0c8e8');
+    lbl.textContent = 'SIMPAN';
+  }
+}
+
+function toggleSave() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  if (accountSaved) {
+    localStorage.removeItem('sync_saved_creds');
+    accountSaved = false;
+    updateSaveUI();
+    showToast('error', 'Dihapus', 'Data akun tersimpan telah dihapus');
+    return;
+  }
+  if (!username || !password) {
+    showToast('error', 'Perlu Isi Dulu', 'Isi username & password sebelum menyimpan');
+    return;
+  }
+  const encoded = btoa(JSON.stringify({ username, password }));
+  localStorage.setItem('sync_saved_creds', encoded);
+  accountSaved = true;
+  updateSaveUI();
+  showToast('success', 'Tersimpan!', 'Akun berhasil disimpan di perangkat ini');
+}
+
+function toggleRemember() {
+  rememberMe = !rememberMe;
+  const el = document.getElementById('rememberCheck');
+  if (rememberMe) {
+    el.classList.add('checked');
+    el.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7ab8ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    localStorage.setItem('sync_remember', '1');
+  } else {
+    el.classList.remove('checked');
+    el.innerHTML = '';
+    localStorage.removeItem('sync_remember');
+  }
+}
+
+function togglePwd() {
+  const inp = document.getElementById('password');
+  const icon = document.getElementById('eyeIcon');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+
+function showToast(type, title, msg) {
+  const wrap = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast' + (type === 'success' ? ' success' : '');
+  const iconColor = type === 'success' ? '#40d0e0' : '#e05c5c';
+  const iconPath = type === 'success'
+    ? '<circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/>'
+    : '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/>';
+  t.innerHTML = `
+    <div class="toast-icon-wrap">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2.5">${iconPath}</svg>
+    </div>
+    <div class="toast-body">
+      <div class="toast-title">${title}</div>
+      <div class="toast-msg">${msg}</div>
+    </div>
+    <div class="toast-progress"></div>`;
+  wrap.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('hide');
+    setTimeout(() => t.remove(), 220);
+  }, 3000);
+}
+
+async function doLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const btn = document.getElementById('loginBtn');
+  if (!username || !password) {
+    showToast('error', 'Gagal Masuk', 'Username Dan Password Tidak Boleh Kosong');
+    return;
+  }
+  btn.disabled = true;
+  btn.classList.add('loading');
+  try {
+    let deviceId = localStorage.getItem('sync_device_id')
+    if (!deviceId) {
+      deviceId = Math.random().toString(36).slice(2) + Date.now().toString(36)
+      localStorage.setItem('sync_device_id', deviceId)
+    }
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, deviceId })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      localStorage.setItem('sync_token', data.token);
+      localStorage.setItem('sync_user', data.username);
+      window.location.href = '/splash.html';
+    } else {
+      showToast('error', 'Gagal Masuk', data.error || 'Username Atau Password Salah');
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  } catch (err) {
+    showToast('error', 'Koneksi Gagal', 'Tidak bisa konek ke server');
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  }
+}
+
+document.getElementById('username').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('password').focus();
+});
+document.getElementById('password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+loadSaved();
+if (!document.getElementById('username').value) {
+  document.getElementById('username').focus();
+}
+
+// ─── Buat partikel ───
+(function() {
+  const container = document.getElementById('particles');
+  const count = 40;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 2 + Math.random() * 3;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 15) + 's';
+    p.style.animationDelay = (Math.random() * 15) + 's';
+    p.style.opacity = 0.3 + Math.random() * 0.5;
+    container.appendChild(p);
+  }
+})();
+</script>
+</body>
+</html>

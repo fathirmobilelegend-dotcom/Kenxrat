@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Welcome</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+@font-face {
+  font-family:'Genetic';
+  src:url('Kenxrat.ttf') format('truetype');
+}
+
+html,body{
+  height:100%;overflow:hidden;
+  background:#050B19;color:#fff;
+  font-family:sans-serif;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+}
+
+/* SLIDES */
+.slides{
+  display:flex;flex-direction:column;
+  height:300vh;
+  transition:transform .65s cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+
+.slide{
+  width:100%;height:100vh;flex-shrink:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:48px 40px;
+  position:relative;
+}
+
+/* ── SLIDE 1 ── */
+.s1-title{
+  font-family:'Genetic',serif;
+  font-size:clamp(52px,14vw,88px);
+  color:#fff;line-height:1;
+  opacity:0;animation:up .7s .15s cubic-bezier(.22,1,.36,1) forwards;
+  margin-bottom:18px;
+}
+.s1-sub{
+  font-size:13px;color:rgba(255,255,255,.45);letter-spacing:.5px;
+  opacity:0;animation:up .6s .35s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* ── SLIDE 2 ── */
+.s2-title{
+  font-family:'Genetic',serif;
+  font-size:clamp(42px,12vw,76px);
+  color:#fff;line-height:1;letter-spacing:4px;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1);
+  margin-bottom:18px;
+}
+.s2-desc{
+  font-size:13px;color:rgba(255,255,255,.45);line-height:1.8;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s .2s ease,transform .5s .2s cubic-bezier(.22,1,.36,1);
+}
+.slide-2.active .s2-title{opacity:1;transform:none;}
+.slide-2.active .s2-desc{opacity:1;transform:none;}
+
+/* ── SLIDE 3 — blank ── */
+.slide-3{background:#04070e;}
+
+/* SWIPE UP hint — bottom */
+.swipe-hint{
+  position:fixed;bottom:38px;left:0;right:0;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  z-index:200;
+  transition:opacity .4s ease;
+}
+.swipe-hint.hidden{opacity:0;pointer-events:none;}
+
+.swipe-icon{
+  width:26px;height:42px;
+  border:1.5px solid rgba(255,255,255,.35);
+  border-radius:13px;
+  position:relative;display:flex;justify-content:center;
+}
+.swipe-dot{
+  width:4px;height:8px;border-radius:2px;
+  background:rgba(255,255,255,.7);
+  position:absolute;bottom:7px;
+  animation:scrolldot 1.6s ease-in-out infinite;
+}
+@keyframes scrolldot{
+  0%{bottom:7px;opacity:1}
+  100%{bottom:24px;opacity:0}
+}
+
+.swipe-txt{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+}
+
+/* page fade */
+body.fadeout{animation:pageout .75s ease forwards;}
+@keyframes pageout{from{opacity:1}to{opacity:0}}
+
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="swipe-hint" id="hint">
+  <div class="swipe-icon"><div class="swipe-dot"></div></div>
+  <span class="swipe-txt">Swipe Up to continue</span>
+</div>
+
+<div class="slides" id="slides">
+
+  <!-- SLIDE 1: WELCOME -->
+  <div class="slide slide-1">
+    <div class="s1-title">Welcome</div>
+    <div class="s1-sub">You good bro - This about apps Kenxrat</div>
+  </div>
+
+  <!-- SLIDE 2: GENETIC -->
+  <div class="slide slide-2" id="slide2">
+    <div class="s2-title">KENXRAT</div>
+    <div class="s2-desc">What is Kenxrat? Kenxrat is an application that can control devices remotely. This application aims to monitor families or children. Many parents neglect to look after their children so that the child is addicted to playing with cellphones. This application is suitable for monitoring children or other families. Underline this application is not intended to carry out criminalization.<br></div>
+  </div>
+
+  <!-- SLIDE 3: blank — swipe here = redirect -->
+  <div class="slide slide-3"></div>
+
+</div>
+
+<script>
+let current = 0;
+let animating = false;
+let s2activated = false;
+let redirected = false;
+
+function goTo(idx) {
+  if (idx < 0 || idx > 2 || animating) return;
+  animating = true;
+  current = idx;
+
+  document.getElementById('slides').style.transform = `translateY(-${idx * 100}vh)`;
+  document.getElementById('hint').className = 'swipe-hint' + (idx === 2 ? ' hidden' : '');
+
+  if (idx === 1 && !s2activated) {
+    s2activated = true;
+    setTimeout(() => document.getElementById('slide2').classList.add('active'), 80);
+  }
+
+  if (idx === 2 && !redirected) {
+    redirected = true;
+    setTimeout(() => {
+      document.body.classList.add('fadeout');
+      setTimeout(() => { window.location.href = 'login.html'; }, 800);
+    }, 150);
+  }
+
+  setTimeout(() => { animating = false; }, 700);
+}
+
+// Touch
+let sy = 0;
+document.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const diff = sy - e.changedTouches[0].clientY;
+  if (Math.abs(diff) > 30) diff > 0 ? goTo(current + 1) : goTo(current - 1);
+}, {passive:true});
+
+// Mouse drag
+let md = false, my = 0;
+document.addEventListener('mousedown', e => { md = true; my = e.clientY; });
+document.addEventListener('mouseup', e => {
+  if (!md) return; md = false;
+  const diff = my - e.clientY;
+  if (Math.abs(diff) > 30) diff > 0 ? goTo(current + 1) : goTo(current - 1);
+});
+
+// Wheel
+let wc = false;
+window.addEventListener('wheel', e => {
+  if (wc || animating) return; wc = true; setTimeout(() => wc = false, 900);
+  e.deltaY > 0 ? goTo(current + 1) : goTo(current - 1);
+}, {passive:true});
+
+// Keys
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown') goTo(current + 1);
+  if (e.key === 'ArrowUp') goTo(current - 1);
+});
+</script>
+</body>
+</html>

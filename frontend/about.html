@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>About — KENXRAT</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+@font-face{font-family:'Genetic';src:url('/Kenxrat.ttf') format('truetype')}
+
+:root{
+  --b0:#03050f;
+  --blue:#1d6fff;
+  --blue2:#4d8fff;
+  --cyan:#00d4ff;
+  --green:#00e5a0;
+  --amber:#ffc34d;
+  --t0:#eef4ff;
+  --t1:#7aa3d4;
+  --t2:#2d4a70;
+  --sans:'Syne',sans-serif;
+  --genetic:'Genetic','Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --gborder:rgba(29,111,255,.12);
+  --gborder2:rgba(29,111,255,.25);
+  --gborder3:rgba(29,111,255,.5);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--b0);
+  color:var(--t0);
+  font-family:var(--sans);
+  min-height:100vh;
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  padding-bottom:48px;
+}
+
+/* BG */
+.bg-layer{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 65% 50% at 50% -5%, rgba(29,111,255,.14) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 90% 25%, rgba(0,212,255,.05) 0%, transparent 55%),
+    var(--b0);
+}
+.bg-grid{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(29,111,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(29,111,255,.022) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,black 20%,transparent 100%);
+}
+
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:200;
+  padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  background:rgba(3,5,15,.88);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--gborder);
+}
+.header::after{
+  content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(29,111,255,.5),rgba(0,212,255,.4),rgba(29,111,255,.5),transparent);
+  opacity:.5;
+}
+.back-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(29,111,255,.07);
+  border:1px solid var(--gborder2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--blue2);flex-shrink:0;
+  text-decoration:none;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.back-btn:hover{background:rgba(29,111,255,.14);border-color:var(--gborder3)}
+.back-btn:active{transform:scale(.93)}
+.hdr-title{
+  flex:1;text-align:center;
+  font-family:var(--genetic);
+  font-size:16px;font-weight:800;letter-spacing:5px;
+  color:#fff;text-shadow:0 0 28px rgba(29,111,255,.45);
+  text-transform:uppercase;
+}
+.hdr-title em{color:var(--cyan);font-style:normal}
+.hdr-spacer{width:36px;flex-shrink:0}
+
+/* ── MAIN ── */
+.main{max-width:460px;margin:0 auto;padding:0 16px}
+
+/* ── HERO (no box, full screen feel) ── */
+.hero{
+  display:flex;flex-direction:column;align-items:center;
+  padding:48px 22px 36px;
+  position:relative;
+}
+
+/* ── APP ICON 3D ── */
+.icon-scene{
+  position:relative;
+  width:100px;height:100px;
+  margin-bottom:28px;
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-ring{
+  position:absolute;inset:-14px;border-radius:50%;
+  border:1px solid rgba(29,111,255,.15);
+  animation:orbit 6s linear infinite;
+}
+.icon-ring::after{
+  content:'';position:absolute;top:-3px;left:50%;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan),0 0 18px var(--cyan);
+  transform:translateX(-50%);
+}
+.icon-ring2{
+  position:absolute;inset:-26px;border-radius:50%;
+  border:1px solid rgba(29,111,255,.06);
+  animation:orbit 11s linear infinite reverse;
+}
+.icon-ring2::after{
+  content:'';position:absolute;bottom:-3px;left:30%;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--blue2);
+  box-shadow:0 0 6px var(--blue2);
+  transform:translateX(-50%);
+}
+@keyframes orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.app-icon{
+  width:90px;height:90px;border-radius:26px;
+  background:linear-gradient(145deg,#0c1c3a,#060f1e);
+  border:1px solid rgba(29,111,255,.22);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.07),
+    inset 0 -2px 0 rgba(0,0,0,.5),
+    0 16px 48px rgba(0,0,0,.75),
+    0 0 0 1px rgba(29,111,255,.07),
+    0 0 36px rgba(29,111,255,.2);
+  position:relative;z-index:1;
+  animation:iconFloat 4s ease-in-out infinite;
+}
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0) rotateX(0deg)}
+  50%{transform:translateY(-8px) rotateX(5deg)}
+}
+.dna-icon{
+  width:44px;height:44px;
+  filter:drop-shadow(0 0 10px rgba(0,212,255,.6)) drop-shadow(0 0 24px rgba(29,111,255,.35));
+}
+
+.app-title{
+  font-family:var(--genetic);
+  font-size:34px;font-weight:800;letter-spacing:7px;
+  color:#fff;line-height:1;
+  text-shadow:0 0 50px rgba(29,111,255,.45),0 2px 24px rgba(0,0,0,.9);
+  margin-bottom:10px;text-align:center;
+  text-transform:uppercase;
+}
+.app-title em{color:var(--cyan);font-style:normal}
+
+.app-version{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,229,160,.05);
+  border:1px solid rgba(0,229,160,.18);
+  border-radius:40px;padding:5px 15px;
+  font-family:var(--mono);font-size:9px;
+  color:var(--green);letter-spacing:2.5px;
+}
+.ver-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 8px var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
+
+/* divider after hero */
+.hero-divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(29,111,255,.2),rgba(0,212,255,.15),rgba(29,111,255,.2),transparent);
+  margin-bottom:24px;
+}
+
+/* ── SECTIONS ── */
+.sec-label{
+  display:flex;align-items:center;gap:10px;
+  padding:4px 0 10px;
+}
+.sec-label-text{
+  font-family:var(--mono);font-size:8px;color:var(--t2);
+  letter-spacing:3px;text-transform:uppercase;white-space:nowrap;
+}
+.sec-label-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gborder2),transparent)}
+
+/* ── DEVELOPER CARD ── */
+.dev-card{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,rgba(10,18,40,.9),rgba(6,10,26,.95));
+  border:1px solid var(--gborder2);
+  border-radius:20px;
+  cursor:pointer;text-decoration:none;
+  transition:all .22s;
+  -webkit-tap-highlight-color:transparent;
+  margin-bottom:16px;
+  box-shadow:0 6px 28px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);
+  position:relative;overflow:hidden;
+}
+.dev-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(29,111,255,.4),rgba(0,212,255,.3),transparent);
+}
+.dev-card:hover{
+  border-color:rgba(29,111,255,.4);
+  box-shadow:0 6px 28px rgba(0,0,0,.4),0 0 30px rgba(29,111,255,.14),inset 0 1px 0 rgba(255,255,255,.05);
+  transform:translateY(-2px);
+}
+.dev-card:active{transform:scale(.98)}
+
+.dev-ava{
+  width:50px;height:50px;border-radius:50%;
+  overflow:hidden;flex-shrink:0;
+  border:2px solid var(--gborder2);
+  box-shadow:0 0 20px rgba(29,111,255,.25);
+}
+.dev-ava img{width:100%;height:100%;object-fit:cover;display:block}
+.dev-info{flex:1;min-width:0}
+.dev-name{
+  font-family:var(--sans);font-size:15px;font-weight:700;
+  color:#fff;letter-spacing:.5px;
+}
+.dev-role{
+  font-family:var(--mono);font-size:8px;color:var(--cyan);
+  letter-spacing:2px;margin-top:3px;opacity:.75;
+}
+.dev-badge{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(255,195,77,.06);
+  border:1px solid rgba(255,195,77,.18);
+  border-radius:8px;padding:5px 10px;
+  font-family:var(--mono);font-size:7px;
+  color:var(--amber);letter-spacing:1.5px;
+  flex-shrink:0;
+}
+
+/* ── SOCIAL ── */
+.social-row{display:flex;gap:8px;margin-bottom:16px}
+.social-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px;border-radius:16px;
+  border:1px solid var(--gborder);
+  background:linear-gradient(135deg,rgba(10,18,40,.85),rgba(6,10,26,.9));
+  color:var(--t1);font-family:var(--sans);font-size:13px;font-weight:600;
+  letter-spacing:.5px;cursor:pointer;text-decoration:none;
+  transition:all .2s;
+  box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
+  -webkit-tap-highlight-color:transparent;
+  position:relative;overflow:hidden;
+}
+.social-btn::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);
+}
+.social-btn.tele:hover{border-color:rgba(0,136,204,.4);color:#29b6f6;box-shadow:0 4px 16px rgba(0,0,0,.35),0 0 20px rgba(0,136,204,.12),inset 0 1px 0 rgba(255,255,255,.04)}
+.social-btn.tiktok:hover{border-color:rgba(105,201,208,.35);color:#69c9d0;box-shadow:0 4px 16px rgba(0,0,0,.35),0 0 20px rgba(105,201,208,.1),inset 0 1px 0 rgba(255,255,255,.04)}
+.social-btn:active{transform:scale(.96)}
+
+/* ── BACK HOME ── */
+.btn-home{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;height:52px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(29,111,255,.12),rgba(29,111,255,.04));
+  border:1px solid var(--gborder2);
+  color:var(--blue2);font-family:var(--sans);font-size:13px;font-weight:700;
+  letter-spacing:2px;cursor:pointer;text-decoration:none;
+  transition:all .2s;
+  box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);
+  -webkit-tap-highlight-color:transparent;
+  text-transform:uppercase;
+  position:relative;overflow:hidden;
+}
+.btn-home::before{
+  content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(29,111,255,.4),transparent);
+}
+.btn-home:hover{
+  background:linear-gradient(135deg,rgba(29,111,255,.2),rgba(29,111,255,.08));
+  border-color:rgba(29,111,255,.5);
+  box-shadow:0 4px 20px rgba(0,0,0,.35),0 0 30px rgba(29,111,255,.18),inset 0 1px 0 rgba(255,255,255,.05);
+  transform:translateY(-1px);
+}
+.btn-home:active{transform:scale(.97)}
+
+/* ── ANIMATIONS ── */
+.hero{animation:fadeUp .5s ease both}
+.dev-card{animation:fadeUp .5s .1s ease both}
+.social-row{animation:fadeUp .5s .15s ease both}
+.btn-home{animation:fadeUp .5s .2s ease both}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+
+<!-- Header -->
+<div class="header">
+  <a href="dashboard.html" class="back-btn">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+  </a>
+  <div class="hdr-title">ABOUT<em>US</em></div>
+  <div class="hdr-spacer"></div>
+</div>
+
+<div class="main">
+
+  <!-- Hero: no box, open feel -->
+  <div class="hero">
+    <div class="icon-scene">
+      <div class="icon-ring"></div>
+      <div class="icon-ring2"></div>
+      <div class="app-icon">
+        <svg class="dna-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dna1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00d4ff"/>
+              <stop offset="100%" stop-color="#1d6fff"/>
+            </linearGradient>
+            <linearGradient id="dna2" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1d6fff"/>
+              <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+          </defs>
+          <path d="M13 4 C13 10, 29 10, 29 16 C29 22, 13 22, 13 28 C13 34, 29 34, 29 40"
+            stroke="url(#dna1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M29 4 C29 10, 13 10, 13 16 C13 22, 29 22, 29 28 C29 34, 13 34, 13 40"
+            stroke="url(#dna2)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <line x1="13" y1="10" x2="29" y2="10" stroke="rgba(0,212,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="16" x2="29" y2="16" stroke="rgba(29,111,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="22" x2="29" y2="22" stroke="rgba(0,212,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="28" x2="29" y2="28" stroke="rgba(29,111,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="34" x2="29" y2="34" stroke="rgba(0,212,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="13" cy="4" r="2.5" fill="#00d4ff" opacity=".85"/>
+          <circle cx="29" cy="4" r="2.5" fill="#1d6fff" opacity=".85"/>
+          <circle cx="13" cy="40" r="2.5" fill="#1d6fff" opacity=".85"/>
+          <circle cx="29" cy="40" r="2.5" fill="#00d4ff" opacity=".85"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="app-title">KEN<em>XRAT</em></div>
+    <div class="app-version">
+      <div class="ver-dot"></div>
+      VERSION 3.0.0
+    </div>
+  </div>
+
+  <!-- subtle divider -->
+  <div class="hero-divider"></div>
+
+  <!-- Developer -->
+  <div class="sec-label">
+    <span class="sec-label-text">Developer</span>
+    <div class="sec-label-line"></div>
+  </div>
+
+  <a class="dev-card" href="https://t.me/XBhigh" target="_blank">
+    <div class="dev-ava">
+      <img src="https://files.catbox.moe/kjt7h3.png" alt="KENZIE" onerror="this.style.background='#0d1e38'">
+    </div>
+    <div class="dev-info">
+      <div class="dev-name">KENZIE</div>
+      <div class="dev-role">Developer &amp; Modding</div>
+    </div>
+    <div class="dev-badge">
+      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+      VERIFY
+    </div>
+  </a>
+
+  <!-- Social -->
+  <div class="sec-label">
+    <span class="sec-label-text">Sosial</span>
+    <div class="sec-label-line"></div>
+  </div>
+
+  <div class="social-row">
+    <a class="social-btn tele" href="https://t.me/Kenzie_lenz" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+      Telegram
+    </a>
+    <a class="social-btn tiktok" href="https://tiktok.com/@Kenzie_lenz799" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+      TikTok
+    </a>
+  </div>
+
+  <!-- Back Home -->
+  
+
+</div>
+</body>
+</html>
