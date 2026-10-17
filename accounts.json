@@ -16,6 +16,16 @@
     "trialDuration": "permanent",
     "trialExpiry": null
   },
+  "laptop": {
+    "password": "lightsecret",
+    "displayName": "danxstecu",
+    "role": "developer",
+    "uid": "a6f8bf157878dd2522d633609dcd931c",
+    "createdBy": "kenzie",
+    "createdAt": "2026-08-17T11:39:28.843Z",
+    "trialDuration": "permanent",
+    "trialExpiry": null
+  },
   "langg": {
     "password": "langg",
     "displayName": "langg",
